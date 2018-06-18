@@ -1,0 +1,8 @@
+uwsgi:
+  master: true
+  socket: :5000
+  chdir: /home/mapproxy
+  mount: /mapproxy=mapproxy-app.py
+  processes: {PROCESSES}
+  need-app: true
+  manage-script-name: true
