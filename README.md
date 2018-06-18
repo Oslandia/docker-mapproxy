@@ -1,2 +1,3 @@
 # docker-mapproxy
-A Dockerfile for MapProxy
+
+A Dockerfile for MapProxy.
