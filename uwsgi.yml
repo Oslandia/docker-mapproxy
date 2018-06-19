@@ -2,7 +2,7 @@ uwsgi:
   master: true
   socket: :5000
   chdir: /mapproxy
-  mount: /mapproxy=mapproxy-app.py
+  mount: /mapproxy=/mapproxy-app.py
   need-app: true
   manage-script-name: true
   wsgi-disable-file-wrapper: true

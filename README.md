@@ -24,7 +24,7 @@ docker run -it --name mapproxy mapproxy
 Run MapProxy with a specific MapProxy configuration file:
 
 ```
-docker run -it --name mapproxy -v $(pwd)/mapproxy.yaml:/mapproxy/conf/mapproxy.yaml mapproxy
+docker run -it --name mapproxy -v $(pwd)/mapproxy.yaml:/mapproxy/mapproxy.yaml mapproxy
 ```
 
 Publish the container's port (5000):
@@ -46,3 +46,9 @@ A number of environment variables can be set to control the execution of uWSGI:
 * `PROCESSES`: spawn the specified number of worker processes
 * `UID`: `setuid` to the specified uid
 * `GID`: `setgid` to the specified gid
+
+For example:
+
+```
+docker run -it --name mapproxy -e PROCESSES=4 -e UID=1000 -e GID=1000 mapproxy
+```

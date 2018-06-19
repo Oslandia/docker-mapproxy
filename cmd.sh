@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cd /mapproxy
 
 ARGS=""
 
@@ -10,7 +9,7 @@ ARGS=""
 [[ -n ${GID} ]] && ARGS="$ARGS --gid ${GID}"
 
 # create a MapProxy test configuration if none is provided
-[[ -d /mapproxy/conf ]] || mapproxy-util create -t base-config conf
+[[ -f /mapproxy/mapproxy.yaml ]] || mapproxy-util create -t base-config /mapproxy
 
 # execute MapProxy
-exec uwsgi --yaml /mapproxy/uwsgi.yml $ARGS
+exec uwsgi --yaml /uwsgi.yml $ARGS
