@@ -3,7 +3,6 @@ uwsgi:
   socket: :5000
   chdir: /mapproxy
   mount: /mapproxy=mapproxy-app.py
-  processes: {PROCESSES}
   need-app: true
   manage-script-name: true
   wsgi-disable-file-wrapper: true
