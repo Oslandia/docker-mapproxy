@@ -40,7 +40,7 @@ RUN chmod +x /tini
 
 RUN mkdir /mapproxy
 
-COPY --chown=mapproxy:mapproxy cmd.sh uwsgi.yml mapproxy-app.py /mapproxy/
+COPY cmd.sh uwsgi.yml mapproxy-app.py /mapproxy/
 
 ENTRYPOINT ["/tini", "--"]
 
