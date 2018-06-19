@@ -6,3 +6,4 @@ uwsgi:
   processes: {PROCESSES}
   need-app: true
   manage-script-name: true
+  wsgi-disable-file-wrapper: true
