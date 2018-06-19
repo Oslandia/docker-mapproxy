@@ -24,7 +24,7 @@ The `PROCESSES` environment variable is used to set the number of uWSGI worker p
 Run MapProxy with a specific configuration file:
 
 ```
-docker run -it --name mapproxy -v $(pwd)/mapproxy.yaml:/home/mapproxy/conf/mapproxy.yaml mapproxy
+docker run -it --name mapproxy -v $(pwd)/mapproxy.yaml:/mapproxy/conf/mapproxy.yaml mapproxy
 ```
 
 Publish the container's port (5000):

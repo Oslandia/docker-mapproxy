@@ -34,17 +34,14 @@ RUN apt-get update \
         zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -m mapproxy
-
 ENV TINI_VERSION v0.17.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
-COPY --chown=mapproxy:mapproxy cmd.sh uwsgi.yml mapproxy-app.py /home/mapproxy/
+RUN mkdir /mapproxy
 
-USER mapproxy
-WORKDIR /home/mapproxy
+COPY --chown=mapproxy:mapproxy cmd.sh uwsgi.yml mapproxy-app.py /mapproxy/
 
 ENTRYPOINT ["/tini", "--"]
 
-CMD ["/home/mapproxy/cmd.sh"]
+CMD ["/mapproxy/cmd.sh"]
