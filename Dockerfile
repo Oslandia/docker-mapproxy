@@ -18,7 +18,7 @@ RUN apt-get update \
         python3-yaml \
         zlib1g \
         zlib1g-dev \
-    && pip3 install \
+    && pip3 install --no-cache-dir \
         MapProxy \
         Pillow \
         Shapely \
