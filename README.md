@@ -24,7 +24,7 @@ docker run -it --name mapproxy mapproxy
 Run MapProxy with a specific MapProxy configuration file:
 
 ```
-docker run -it --name mapproxy -v $(pwd)/mapproxy.yaml:/mapproxy/mapproxy.yaml mapproxy
+docker run -it --name mapproxy -v $(pwd)/mapproxy.yaml:/mapproxy/mapproxy.yaml:ro mapproxy
 ```
 
 Publish the container's port (5000):
@@ -36,8 +36,34 @@ docker run -it --name mapproxy -p 8080:5000 mapproxy
 Use a Docker volume for MapProxy's data cache:
 
 ```
-docker run -it --name mapproxy -v mapproxy-cache:/mapproxy/cache_data
+docker run -it --name mapproxy -v mapproxy-cache:/mapproxy/cache_data mapproxy
 ```
+
+## Execute `mapproxy-seed`
+
+Execute `mapproxy-seed`:
+
+```
+docker run -it mapproxy mapproxy-seed -h
+```
+
+Execute `mapproxy-seed` with specific MapProxy and seed configuration files:
+
+```
+docker run -it -v $(pwd):/mapproxy mapproxy mapproxy-seed -f /mapproxy/mapproxy.yaml -s /mapproxy/seed.yaml
+```
+
+The above command assumes that the current directory (`$(pwd)`) includes both a MapProxy
+configuration file, `mapproxy.yaml`, and a seed configuration file, `seed.yaml`.
+
+Note: you can use the following command to create a "base" MapProxy config in the current directory:
+
+```
+docker run -it -v $(pwd):/mapproxy mapproxy mapproxy-util create -t base-config /mapproxy
+```
+
+This will create `mapproxy.yaml`, `seed.yaml`, `full_example.yaml` and `full_seed_example.yaml`
+files in your current directory.
 
 ## Environment variables
 
