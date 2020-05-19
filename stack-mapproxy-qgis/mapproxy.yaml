@@ -1,0 +1,112 @@
+# -------------------------------
+# MapProxy example configuration.
+# -------------------------------
+#
+# This is a minimal MapProxy configuration.
+# See full_example.yaml and the documentation for more options.
+#
+
+# Starts the following services:
+# Demo:
+#     http://localhost:8080/demo
+# WMS:
+#     capabilities: http://localhost:8080/service?REQUEST=GetCapabilities
+# WMTS:
+#     capabilities: http://localhost:8080/wmts/1.0.0/WMTSCapabilities.xml
+#     first tile: http://localhost:8080/wmts/osm/webmercator/0/0/0.png
+# Tile service (compatible with OSM/etc.)
+#     first tile: http://localhost:8080/tiles/osm/webmercator/0/0/0.png
+# TMS:
+#     note: TMS is not compatible with OSM/Google Maps/etc.
+#     fist tile: http://localhost:8080/tms/1.0.0/osm/webmercator/0/0/0.png
+# KML:
+#     initial doc: http://localhost:8080/kml/osm/webmercator
+
+services:
+  demo:
+  tms:
+    use_grid_names: true
+    # origin for /tiles service
+    origin: 'nw'
+  kml:
+      use_grid_names: true
+  wmts:
+
+  wms:
+    # only offer WMS 1.1.1
+    versions: ['1.1.1']
+
+    # supported SRS for this WMS
+    srs: ['EPSG:3857']
+
+    # force the layer extents (BBOX) to be displayed in this SRS
+    bbox_srs: ['EPSG:3857']
+
+    # limit the supported image formats.
+    image_formats: ['image/jpeg', 'image/png', 'image/gif', 'image/GeoTIFF', 'image/tiff']
+
+    # add attribution text in the lower-right corner.
+    attribution:
+      text: '(c) MyCompagny'
+
+    # return an OGC service exception when one or more sources return errors
+    # or no response at all (e.g. timeout)
+    on_source_errors: raise
+
+    # maximum output size for a WMS requests in pixel, default is 4000 x 4000
+    # compares the product, eg. 3000x1000 pixel < 2000x2000 pixel and is still
+    # permitted
+    max_output_pixels: [2000, 2000]
+
+    # some WMS clients do not send all required parameters in feature info
+    # requests, MapProxy ignores these errors unless you set strict to true.
+    strict: true
+
+    # list of feature info types the server should offer
+    featureinfo_types: ['text', 'html', 'xml']
+
+    md:
+      # metadata used in capabilities documents
+      title: MapProxy WMS Proxy
+      abstract: This is the fantastic MapProxy.
+      online_resource: http://mapproxy.org/
+      contact:
+        person: Your Name Here
+        position: Technical Director
+        organization: MyCompagny
+        address: Fakestreet 123
+        city: Somewhere
+        postcode: 12345
+        country: Germany
+        phone: +49(0)000-000000-0
+        fax: +49(0)000-000000-0
+      # multiline strings are possible with the right indention
+      access_constraints:
+        Insert license and copyright information for this service.
+      fees: 'None'
+
+
+layers:
+  - name: default_qgis_layer
+    title: DEFAULT WMS
+    sources: [default_cache]
+
+caches:
+  default_cache:
+    # cache the results in two grids/projections
+    grids: [epgs_3857]
+    sources: [default_wms]
+
+sources:
+  default_wms:
+    type: wms
+    req:
+      url: http://nginx/qgis-server/service?
+      layers: osm
+
+grids:
+    epgs_3857:
+      srs: 'EPSG:3857'
+        
+
+globals:

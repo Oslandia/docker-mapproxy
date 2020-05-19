@@ -1,0 +1,40 @@
+version: '2'
+services:
+  nginx:
+    image: nginx:1.13
+    ports:
+    - 8080:80
+    networks:
+    - mapproxy
+    volumes:
+    - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+    - mapproxy
+
+  mapproxy:
+    image: mapproxy:latest
+    networks:
+    - mapproxy
+    volumes:
+    - ./mapproxy-cache:/mapproxy/cache_data
+    - ./mapproxy.yaml:/mapproxy/mapproxy.yaml:ro
+    - ./seed.yaml:/mapproxy/seed.yaml:ro
+    environment:
+    - PROCESSES=2
+    depends_on:
+    - qgis-server
+
+  qgis-server:
+    image: qgis-exec:latest
+    networks:
+    - mapproxy
+    volumes:
+    - ./data:/data:ro
+    environment:
+    - QGIS_SERVER_PARALLEL_RENDERING=1
+    - QGIS_SERVER_MAX_THREADS=2
+    - QGIS_PROJECT_FILE=/data/layers.qgs
+    - QGIS_SERVER_LOG_LEVEL=0  # INFO (log all requests)
+    - DEBUG=1                  # display env before spawning QGIS Server
+networks:
+  mapproxy: {}
